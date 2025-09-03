@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.frontend.name }}-deployment
+  name: frontend-deployment
 spec:
-  replicas: {{ .Values.frontend.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.frontend.name }}
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.frontend.name }}
+        app: {{ .Values.name }}
     spec:
       serviceAccountName: frontend-service-sa
       containers:
-      - name: {{ .Values.frontend.name }}-container
-        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+      - name: {{ .Values.name }}-container
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
-        - containerPort: {{ .Values.frontend.containerPort }}
+        - containerPort: {{ .Values.containerPort }}
         livenessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.frontend.containerPort }}
+            port: {{ .Values.containerPort }}
           initialDelaySeconds: 10
           periodSeconds: 5
         readinessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.frontend.containerPort }}
+            port: {{ .Values.containerPort }}
           initialDelaySeconds: 10
           periodSeconds: 5
         resources:
