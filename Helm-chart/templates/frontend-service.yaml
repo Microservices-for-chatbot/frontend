@@ -4,7 +4,7 @@ metadata:
   name: frontend-service
 spec:
   selector:
-    app: frontend # This label must match the 'app' label in your frontend deployment manifest
+    app: frontend-deployment # This label must match the 'app' label in your frontend deployment manifest
   ports:
     - protocol: TCP
       port: 80 # The port that the Ingress will connect to on the service
