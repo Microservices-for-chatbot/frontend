@@ -1,0 +1,21 @@
+# Frontend Service Configuration
+replicaCount: 1
+image:
+  repository: amithpalissery/frontend
+  tag: 1.0.1
+containerPort: 5000
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  host: "my-frontend.com"
+  path: "/"
