@@ -6,25 +6,7 @@ on:
       - main
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8
-      - name: Run Flake8 and pass for demonstration
-        run: flake8 app_frontend.py || true
-
-  codeql-analysis:
+  tests:
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -34,6 +16,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # --- LINTING STEPS ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install linting dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      
+      - name: Run Flake8 and pass for demonstration
+        run: flake8 app_frontend.py || true
+
+      # --- CODEQL ANALYSIS STEPS ---
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -45,29 +42,18 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
-  test:
-    runs-on: ubuntu-latest
-    needs: [lint, codeql-analysis]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      # --- UNIT TESTING STEPS ---
+      - name: Install testing dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
+      
       - name: Run tests and pass for demonstration
         run: pytest || true
 
   build-and-push:
     runs-on: ubuntu-latest
-    needs: test
+    needs: tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
