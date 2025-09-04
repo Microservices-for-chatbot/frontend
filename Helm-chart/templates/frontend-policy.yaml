@@ -23,4 +23,4 @@ spec:
   - to:
     - podSelector:
         matchLabels:
-          app: ai-service # This assumes 'ai-service' is a hardcoded name in a different chart
+          app: {{ include "ai-service.name" . }} # This line is now templated
