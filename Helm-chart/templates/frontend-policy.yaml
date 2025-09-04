@@ -18,9 +18,21 @@ spec:
     - namespaceSelector: {}
       podSelector:
         matchLabels:
-          app: {{ .Values.serviceDependencies.ingressControllerAppLabel }}
+          app.kubernetes.io/name: {{ .Values.serviceDependencies.ingressControllerAppLabel }}
   egress:
   - to:
     - podSelector:
         matchLabels:
           app: {{ .Values.serviceDependencies.aiServiceAppLabel }}
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
