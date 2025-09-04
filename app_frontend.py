@@ -40,16 +40,17 @@ def chatbot():
 
         ai_response_data = response.json()
         ai_response_text = ai_response_data.get(
-            'answer', 'An unexpected error occurred.'
+            'answer',
+            'An unexpected error occurred.'
         )
 
         return jsonify({'answer': ai_response_text})
 
     except requests.exceptions.RequestException as e:
-        print("Error connecting to AI microservice:", e)
-        return jsonify({
-            'answer': f"Sorry, an error occurred while connecting to the AI service: {e}"
-        }), 500
+        error_msg = (
+            f"Sorry, an error occurred while connecting to the AI service: {e}"
+        )
+        return jsonify({'answer': error_msg}), 500
 
 
 if __name__ == '__main__':
