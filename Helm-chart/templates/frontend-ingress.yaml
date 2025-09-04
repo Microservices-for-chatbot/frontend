@@ -1,9 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontend-ingress
+  name: {{ include "frontend.fullname" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app: {{ include "frontend.name" . }}
+    {{- include "frontend.labels" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
@@ -13,6 +16,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: frontend-service
+            name: {{ include "frontend.fullname" . }}
             port:
               number: 80
