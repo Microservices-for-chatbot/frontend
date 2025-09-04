@@ -19,3 +19,6 @@ ingress:
   annotations: {}
   host: "my-frontend.com"
   path: "/"
+serviceDependencies:
+  aiServiceAppLabel: "ai-service"
+  ingressControllerAppLabel: "ingress-nginx-controller"
