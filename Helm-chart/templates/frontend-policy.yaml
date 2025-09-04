@@ -18,9 +18,9 @@ spec:
     - namespaceSelector: {}
       podSelector:
         matchLabels:
-          app: ingress-nginx-controller
+          app: {{ .Values.serviceDependencies.ingressControllerAppLabel }}
   egress:
   - to:
     - podSelector:
         matchLabels:
-          app: {{ include "ai-service.name" . }} # This line is now templated
+          app: {{ .Values.serviceDependencies.aiServiceAppLabel }}
