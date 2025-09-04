@@ -34,7 +34,10 @@ def chatbot():
 
         response = requests.post(
             ai_api_url,
-            json={'question': question, 'user_id': user_id}
+            json={
+                'question': question,
+                'user_id': user_id
+            }
         )
         response.raise_for_status()
 
@@ -48,7 +51,8 @@ def chatbot():
 
     except requests.exceptions.RequestException as e:
         error_msg = (
-            f"Sorry, an error occurred while connecting to the AI service: {e}"
+            "Sorry, an error occurred while connecting to the AI service: "
+            f"{e}"
         )
         return jsonify({'answer': error_msg}), 500
 
