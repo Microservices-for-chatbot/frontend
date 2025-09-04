@@ -1,4 +1,4 @@
-# Frontend Service Configuration
+name: frontend-service
 replicaCount: 1
 image:
   repository: amithpalissery/frontend
