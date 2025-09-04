@@ -1,5 +1,8 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: frontend-service-sa
+  name: {{ include "frontend.fullname" . }}-sa
+  labels:
+    app: {{ include "frontend.name" . }}
+    {{- include "frontend.labels" . | nindent 4 }}
   namespace: default
