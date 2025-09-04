@@ -1,20 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: {{ include "frontend.fullname" . }} # Correctly using the fullname helper
+  labels:
+    app: {{ include "frontend.name" . }}
+    {{- include "frontend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: {{ include "frontend.name" . }}
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: {{ include "frontend.name" . }}
+        {{- include "frontend.labels" . | nindent 8 }}
     spec:
       serviceAccountName: frontend-service-sa
       containers:
-      - name: {{ .Values.name }}-container
+      - name: {{ include "frontend.name" . }} # Correctly using the name helper
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.containerPort }}
