@@ -11,7 +11,6 @@ resources:
   limits:
     cpu: "250m"
     memory: "256Mi"
-
 # Ingress Configuration
 ingress:
   enabled: true
@@ -21,4 +20,4 @@ ingress:
   path: "/"
 serviceDependencies:
   aiServiceAppLabel: "ai-service"
-  ingressControllerAppLabel: "ingress-nginx-controller"
+  ingressControllerAppLabel: "ingress-nginx"
