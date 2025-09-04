@@ -1,12 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: frontend-policy
+  name: {{ include "frontend.fullname" . }}-policy
   namespace: default
+  labels:
+    app: {{ include "frontend.name" . }}
+    {{- include "frontend.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels:
-      app: frontend
+      app: {{ include "frontend.name" . }}
   policyTypes:
   - Ingress
   - Egress
@@ -15,21 +18,9 @@ spec:
     - namespaceSelector: {}
       podSelector:
         matchLabels:
-          app.kubernetes.io/name: ingress-nginx
+          app: ingress-nginx-controller
   egress:
   - to:
     - podSelector:
         matchLabels:
-          app: ai-service
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: kube-system
-      podSelector:
-        matchLabels:
-          k8s-app: kube-dns
-    ports:
-    - protocol: UDP
-      port: 53
-    - protocol: TCP
-      port: 53
+          app: ai-service # This assumes 'ai-service' is a hardcoded name in a different chart
