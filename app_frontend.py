@@ -30,6 +30,8 @@ def chatbot():
 
     try:
         # Replace with your AI microservice's actual address if not using Docker Compose.
+        # [2025-08-10] Note: This line has a hardcoded IP.
+        # If you restart your EC2 instance, you will need to change this.
         ai_api_url = "http://ai-service:5001/generate-response"
 
         response = requests.post(
@@ -37,7 +39,8 @@ def chatbot():
             json={
                 'question': question,
                 'user_id': user_id
-            }
+            },
+            timeout=10 # It's a good practice to set a timeout for requests.
         )
         response.raise_for_status()
 
