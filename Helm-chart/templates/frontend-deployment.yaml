@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "frontend.fullname" . }} # Correctly using the fullname helper
+  name: {{ include "frontend.fullname" . }}
   labels:
     app: {{ include "frontend.name" . }}
     {{- include "frontend.labels" . | nindent 4 }}
@@ -16,9 +16,9 @@ spec:
         app: {{ include "frontend.name" . }}
         {{- include "frontend.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: frontend-service-sa
+      serviceAccountName: {{ include "frontend.fullname" . }}-sa # This line must be templated
       containers:
-      - name: {{ include "frontend.name" . }} # Correctly using the name helper
+      - name: {{ include "frontend.name" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.containerPort }}
